@@ -29,6 +29,10 @@
 #ifndef FILTER_h
 #define FILTER_h 
 
+//#define NULL 0
+
+#include <cstdio>	//for access to NULL
+#include <iostream>	//for debug access to cout
 #include "Filter.h"
 
 //*******************************************************************
@@ -49,9 +53,10 @@ struct List {
 	Node* tail;
 	
 	//constructor
-	List()
-		:cnt(0), head(0), tail(0) {}
-		
+	List(): cnt(0), head(NULL), tail(NULL) {}
+	//destructor
+	~List();
+
 	// len returns the number of elements in L
 	int len( ) { return cnt; }
 
@@ -61,66 +66,59 @@ struct List {
 	//return sum of elements
 	int sum();
 	
+	//show the elements
+	void print();
+	
 };
 
 //*******************************************************************
 //*                         MOVING AVERAGE
 //*******************************************************************
-// class Moving_average{
-// 	int len;	//length of historical data to smooth.
-// 						//For example, to average the last three data points
-// 						//plus the current data, len would be 4.
-// 						
-// 	int his;	//length of historical data to store.  If len is 4
-// 						//then his is 3.
-// 	
-// 	List data;	//points to first data element
-// 	
-// 	//return sum of data
-// 	int sum() {
-// 		int result = 0;
-// 		if(data != NULL){
-// 			for(size_t i = 0; i < his; ++i){
-// 				result += data[i];
-// 			}
-// 		} 
-// 		return result;
-// 	}
-// 
-// public: 
-// 	Moving_average(int length, int default_data) 
-// 		:len(length), his(len-1) {
-// 		
-// 		//build a list of length his, with data of default_data
-// 	}
-// 	
-// 	
-// 	
-// 	int filter(int new_data){
-// 		//add a new data point and return the filtered result
-// 		int result = sum() + new_data;
-// 		result = result / len;
-// 		
-// 		//shift the historical data
-// 		for(size_t i = 0; i < his; ++i) {
-// 			data[2] = data[1];
-// 			data[1] = data[0];
-// 			data[0] = new_data;
-// 		}
-// 		
-// 		shift(data, data[1], 2)
-// 		
-// 	}
-// 	
-// 	void shift(int* array, int elem, int index){
-// 		if(index >= 0){	
-// 			array[index] = data;
-// 			--index;
-// 			data = array[index];
-// 		}		
-// 	}
-// 	
-// };
+class Moving_average{
+	int len;	//length of historical data to smooth.
+						//For example, to average the last three data points
+						//plus the current data, len would be 4.
+						
+	int his;	//length of historical data to store.  If len is 4
+						//then his is 3.
+	
+	List data;	//points to first data element
+	
+
+public: 
+	Moving_average(int length, int default_data) 
+		:len(length), his(len-1) {
+		
+		//build a list of length his, with data of default_data
+	}
+	
+	
+	
+	// int filter(int new_data){
+	// 	//add a new data point and return the filtered result
+	// 	int result = sum() + new_data;
+	// 	result = result / len;
+	// 	
+	// 	//shift the historical data
+	// 	for(size_t i = 0; i < his; ++i) {
+	// 		data[2] = data[1];
+	// 		data[1] = data[0];
+	// 		data[0] = new_data;
+	// 	}
+	// 	
+	// 	shift(data, data[1], 2)
+	// 	
+	// }
+	// 
+	// void shift(int* array, int elem, int index){
+	// 	if(index >= 0){	
+	// 		array[index] = data;
+	// 		--index;
+	// 		data = array[index];
+	// 	}		
+	// }
+	
+};
 
 
 #endif
