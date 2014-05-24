@@ -3,7 +3,7 @@ Filter
 
 Basic filters implemented as an Arduino library.  
 
-Includes easily configured moving average with an example for low pass filter 
+Includes easily configured moving average with an example for a low pass filter 
 applicable to noisy servo commands reeived via a wireless serial connection
 for a remote control robot or noisy distance data received by a Ping))) sonsor
 or other ultrasonic (sonar) rangefinder.
@@ -19,7 +19,7 @@ but all too often the data will come back like this
 11, 10, 6, 8, 7, 3, 5, 4, 1, 2, 1, ..bump!
 
 By filtering the raw data, via a moving average or other more 
-specialized filter we can use the noisy data as an input to q
+specialized filter we can use the noisy data as an input to a
 filter and then the processed data will give a better linear
 output.  This linear output still doesn't match the exact distance
 to the wall, but it is a much closer approximation than the noisy
