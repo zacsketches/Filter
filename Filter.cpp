@@ -12,7 +12,10 @@ FIFO_list::~FIFO_list() {
 		q = p;
 		p = p->next;
 		delete q;
-		//std::cout<<"destroying node"<<std::endl;
+		
+		#ifdef COMPILE_FOR_CMD_LINE_TEST
+			std::cout<<"destroying node"<<std::endl;
+		#endif
 	}
 }
 
@@ -30,15 +33,6 @@ void FIFO_list::append(int elem) {
 		tail = newNode;
 	}
 	cnt++;
-}
-
-//print element values to cout
-void FIFO_list::print() {
-	Node* p = head;
-	while (p != NULL){
-		std::cout<<"\t"<<p->data<<std::endl;
-		p = p->next;
-	}
 }
 
 // return sum of Nodes in the list
@@ -62,6 +56,18 @@ void FIFO_list::add(int new_data) {
 		delete p;
 	}
 }
+
+#ifdef COMPILE_FOR_CMD_LINE_TEST
+	//print element values to cout
+	void FIFO_list::print() {
+		Node* p = head;
+		while (p != NULL){
+			std::cout<<"\t"<<p->data<<std::endl;
+			p = p->next;
+		}
+	}
+#endif
+
 
 //*******************************************************************
 //*                         MOVING AVERAGE DEFINITIONS

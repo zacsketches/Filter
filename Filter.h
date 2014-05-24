@@ -29,11 +29,23 @@
 #ifndef FILTER_h
 #define FILTER_h 
 
-//#define NULL 0
+// Uncomment the line below to run as an Arduino library from
+// the Arduino IDE, and commend out the COMPILE directive below
+// for command line testing
+#define COMPILE_FOR_ARDUINO
 
-#include <cstdio>	//for access to NULL
-#include <iostream>	//for debug access to cout
-#include "Filter.h"
+// Uncomment the lines below to compile the Dev_test main()
+// Also comment out the Arduino lines above
+// #define COMPILE_FOR_CMD_LINE_TEST
+
+#ifdef COMPILE_FOR_ARDUINO
+	#include "Arduino.h"
+#endif
+
+#ifdef COMPILE_FOR_CMD_LINE_TEST
+	#include <cstdio>	//for access to NULL
+	#include <iostream>	//for debug access to cout
+#endif
 
 //*******************************************************************
 //*                         Node and FIFO_list
@@ -69,8 +81,11 @@ struct FIFO_list {
 	//add the new data to the FIFO List, pushing out oldest data
 	void add(int new_data);
 	
+#ifdef COMPILE_FOR_CMD_LINE_TEST
 	//show the elements
 	void print();
+#endif
+
 	
 };
 
@@ -111,6 +126,5 @@ public:
 	int filter(int new_data);	
 
 };
-
 
 #endif
