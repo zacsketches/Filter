@@ -75,6 +75,8 @@ struct FIFO_list {
 	// add elt to the end of L
 	void append(int elem);
 	
+	void inline remove_node(Node* p);
+	
 	//return sum of elements
 	int sum();
 	

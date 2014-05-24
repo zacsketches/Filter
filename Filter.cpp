@@ -19,6 +19,12 @@ FIFO_list::~FIFO_list() {
 	}
 }
 
+// remove an element
+void inline FIFO_list::remove_node(Node* p){
+	--cnt;
+	delete p;
+}
+
 // add elem to the end of L
 void FIFO_list::append(int elem) {
 	Node* newNode = new Node;
@@ -53,7 +59,7 @@ void FIFO_list::add(int new_data) {
 		Node* p = head;
 		append(new_data);
 		head = head->next;
-		delete p;
+		remove_node(p);
 	}
 }
 
@@ -92,5 +98,3 @@ int Moving_average::filter(int new_data) {
 		
 		return result;		
 }
-
-//change the length of filtered data
