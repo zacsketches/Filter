@@ -52,24 +52,34 @@ void setup(){
 }
 
 void loop() {
+	//set the variables used in the output
   static int tmp_val = 0;
   static int filter1 = 0;
   static int filter2 = 90;
+
+	//see if new data is available from the serial port
   if(Serial.available()) {
     tmp_val = read_serial();
   }
   
+  //*******************************************************************
+  //*         THIS SECTION IS THE IMPORTANT ONE
+  //* The .filter(int temp_val)  method will add the new data point
+  //* to the moving average and return the filtered value. The data
+  //* structure inside the Moving_average object will store all your
+  //* data for you, keeping only the lenghth of data you specify in 
+  //* the constructor.  
+  //* 
+  //* That's it...simply construct a moving average object and call
+  //* the filter method with the next data point.
+  //*******************************************************************
+
   filter1 = ma.filter(tmp_val);
   filter2 = ma2.filter(tmp_val);
   
-  Serial.print("tmp_val is: ");
-  Serial.print(tmp_val);
-  Serial.print("\tma1 is: ");
-  Serial.print(filter1);  
-  Serial.print("\tma2 is: ");
-  Serial.println(filter2);  
+  print(tmp_val, filter1, filter2);
+
   delay(100);
-  
 }
 
 int read_serial() {
@@ -80,4 +90,11 @@ int read_serial() {
   return incoming;
 }
 
-
+void print(const int tmp_val, const int filter1, const int filter2) {
+  Serial.print("tmp_val is: ");
+  Serial.print(tmp_val);
+  Serial.print("\tma1 is: ");
+  Serial.print(filter1);  
+  Serial.print("\tma2 is: ");
+  Serial.println(filter2);  
+}
