@@ -36,7 +36,7 @@
 #include "Filter.h"
 
 //*******************************************************************
-//*                         Node and List
+//*                         Node and FIFO_list
 //*  Filters use a linked list data structure to hold their historical
 //*  values.
 //*******************************************************************
@@ -47,15 +47,15 @@ struct Node {
 };
 
 // declare the list header structure
-struct List {
+struct FIFO_list {
 	int cnt;
 	Node* head;
 	Node* tail;
 	
 	//constructor
-	List(): cnt(0), head(NULL), tail(NULL) {}
+	FIFO_list(): cnt(0), head(NULL), tail(NULL) {}
 	//destructor
-	~List();
+	~FIFO_list();
 
 	// len returns the number of elements in L
 	int len( ) { return cnt; }
@@ -65,6 +65,9 @@ struct List {
 	
 	//return sum of elements
 	int sum();
+	
+	//add the new data to the FIFO List, pushing out oldest data
+	void add(int new_data);
 	
 	//show the elements
 	void print();
@@ -82,42 +85,31 @@ class Moving_average{
 	int his;	//length of historical data to store.  If len is 4
 						//then his is 3.
 	
-	List data;	//points to first data element
+	FIFO_list data;	//points to first data element
 	
 
-public: 
-	Moving_average(int length, int default_data) 
-		:len(length), his(len-1) {
-		
-		//build a list of length his, with data of default_data
-	}
+public:
+	//CONSTRUCTOR
+	//default data for the history is optional, but recommended
+	//when filtering write positions for servos.  I like to use the
+	//servo default position (usually 90) as the default data
+	//for this filter 
+	Moving_average(int length, int default_data=0);
 	
+	const int length() { return len;} 
 	
+	/*
+		TODO Consider adding the set_length function below to allow
+		users to change the length of filtered data.  I don't need
+		this function now, so I'm leaving it for future work should
+		a need arise.
+	*/
+	//void set_length(const int length);
 	
-	// int filter(int new_data){
-	// 	//add a new data point and return the filtered result
-	// 	int result = sum() + new_data;
-	// 	result = result / len;
-	// 	
-	// 	//shift the historical data
-	// 	for(size_t i = 0; i < his; ++i) {
-	// 		data[2] = data[1];
-	// 		data[1] = data[0];
-	// 		data[0] = new_data;
-	// 	}
-	// 	
-	// 	shift(data, data[1], 2)
-	// 	
-	// }
-	// 
-	// void shift(int* array, int elem, int index){
-	// 	if(index >= 0){	
-	// 		array[index] = data;
-	// 		--index;
-	// 		data = array[index];
-	// 	}		
-	// }
-	
+				
+	//add a new data point and return the filtered result
+	int filter(int new_data);	
+
 };
 
 
