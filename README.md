@@ -25,3 +25,11 @@ output.  This linear output still doesn't match the exact distance
 to the wall, but it is a much closer approximation than the noisy
 data and provides a better set of data for the robot to make 
 control decisions from.
+
+Installation
+==============
+
+1. From the command line 'cd' into the Arduino/libraries folder.
+2. Enter 'git clone http://github.com/zacsketches/Filter.git'
+3. This will clone the library into your Arduino libraries.
+4. Restart the Arduino IDE.  Click on examples and you will see Filter library and the moving_average example.
