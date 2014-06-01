@@ -123,12 +123,9 @@ public:
 	*/
 	//void set_length(const int length);
 	
-	/*
-		TODO Consider adding a function to return the existing avg
-		without adding a new datapoint.
-	*/
+  //return the current value of the average
+  int current();
 	
-				
 	//add a new data point and return the filtered result
 	int filter(int new_data);	
 

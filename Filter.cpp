@@ -88,6 +88,11 @@ Moving_average::Moving_average(int length, int default_data)
 	}	
 }
 
+//return the average of the existing data
+int Moving_average::current() {
+  return (data.sum() / len);
+}
+
 //filter an incoming data point and return the filtered value
 int Moving_average::filter(int new_data) {
 		int result = data.sum() + new_data;
