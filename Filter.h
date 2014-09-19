@@ -30,7 +30,7 @@
 #define FILTER_h 
 
 // Uncomment the line below to run as an Arduino library from
-// the Arduino IDE, and commend out the COMPILE directive below
+// the Arduino IDE, and comment out the COMPILE directive below
 // for command line testing
 #define COMPILE_FOR_ARDUINO
 
@@ -123,8 +123,8 @@ public:
 	*/
 	//void set_length(const int length);
 	
-  //return the current value of the average
-  int current();
+    //return the current value of the average
+    int current();
 	
 	//add a new data point and return the filtered result
 	int filter(int new_data);	
