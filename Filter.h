@@ -103,6 +103,7 @@ class Moving_average{
 						//then his is 3.
 	
 	FIFO_list data;	//points to first data element
+	int ca;			//current average
 	
 
 public:
@@ -123,10 +124,12 @@ public:
 	*/
 	//void set_length(const int length);
 	
-    //return the current value of the average
-    int current();
+    //get and set the current average
+    int current() {return ca;}
+	void set_current(const int val) {ca = val;}
 	
-	//add a new data point and return the filtered result
+	//add a new data point and return the filtered result.  filter() also
+	//sets current
 	int filter(int new_data);	
 
 };

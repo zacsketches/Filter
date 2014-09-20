@@ -35,7 +35,7 @@
 // Create a moving average filter that averages the last 
 // three elements, and starting values are default set to
 // zero.
-Moving_average ma(3);
+Moving_average ma(1);
 
 // Create a moving average filter that averages the last
 // nine data points, and starting values are defaulted to
@@ -45,7 +45,7 @@ Moving_average ma(3);
 Moving_average ma2(9, 90);
 
 void setup(){
-  Serial.begin(9600);
+  Serial.begin(57600);
   Serial.setTimeout(100);  //change default from 1000ms to 100ms so
                            //we timeout quicker in the parseInt function
                            //from read_serial.
@@ -96,5 +96,7 @@ void print(const int tmp_val, const int filter1, const int filter2) {
   Serial.print("\tma1 is: ");
   Serial.print(filter1);  
   Serial.print("\tma2 is: ");
-  Serial.println(filter2);  
+  Serial.print(filter2);
+  Serial.print("\tma2 current is: ");
+  Serial.println(ma2.current());  
 }
