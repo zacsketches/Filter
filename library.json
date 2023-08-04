@@ -1,0 +1,19 @@
+{
+  "name": "Filter",
+  "version": "1.0.0",
+  "description": "Basic filters implemented as an Arduino library",
+  "keywords": "arduino, sensor, filter",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/zacsketches/Filter"
+  },
+  "frameworks": "*",
+  "platforms": "*",
+  "build": {
+    "srcFilter": [
+      "+<*>",
+      "-<Dev_test/test.cpp>"
+    ]
+  }
+}
