@@ -10,8 +10,10 @@
   },
   "frameworks": "*",
   "platforms": "*",
-  "srcFilter": [
-        "+<*>",
-        "-<Dev_test/test.cpp>"
+  "build": {
+    "srcFilter": [
+      "+<*>",
+      "-<Dev_test/test.cpp>"
     ]
+  }
 }
