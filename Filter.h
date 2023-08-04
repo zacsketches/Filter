@@ -53,16 +53,18 @@
 //*  values.
 //*******************************************************************
 // declaring a list node structure
+template <typename T>
 struct Node {
-  int data;     // data field
+  T data;     // data field
   Node* next;   // link field
 };
 
 // declare the list header structure
+template <typename T>
 struct FIFO_list {
 	int cnt;
-	Node* head;
-	Node* tail;
+	Node<T>* head;
+	Node<T>* tail;
 	
 	//constructor
 	FIFO_list(): cnt(0), head(NULL), tail(NULL) {}
@@ -73,15 +75,15 @@ struct FIFO_list {
 	int len( ) { return cnt; }
 
 	// add elt to the end of L
-	void append(int elem);
+	void append(T elem);
 	
-	void inline remove_node(Node* p);
+	void inline remove_node(Node<T>* p);
 	
 	//return sum of elements
-	int sum();
+	T sum();
 	
 	//add the new data to the FIFO List, pushing out oldest data
-	void add(int new_data);
+	void add(T new_data);
 	
 #ifdef COMPILE_FOR_CMD_LINE_TEST
 	//show the elements
@@ -94,6 +96,7 @@ struct FIFO_list {
 //*******************************************************************
 //*                         MOVING AVERAGE
 //*******************************************************************
+template <typename T>
 class Moving_average{
 	int len;	//length of historical data to smooth.
 						//For example, to average the last three data points
@@ -102,8 +105,8 @@ class Moving_average{
 	int his;	//length of historical data to store.  If len is 4
 						//then his is 3.
 	
-	FIFO_list data;	//points to first data element
-	int ca;			//current average
+	FIFO_list<T> data;	//points to first data element
+	T ca;			//current average
 	
 
 public:
@@ -112,7 +115,7 @@ public:
 	//when filtering write positions for servos.  I like to use the
 	//servo default position (usually 90) as the default data
 	//for this filter 
-	Moving_average(int length, int default_data=0);
+	Moving_average(int length, T default_data=0);
 	
 	const int length() { return len;} 
 	
@@ -125,13 +128,124 @@ public:
 	//void set_length(const int length);
 	
     //get and set the current average
-    int current() {return ca;}
-	void set_current(const int val) {ca = val;}
+    T current() {return ca;}
+	void set_current(const T val) {ca = val;}
 	
 	//add a new data point and return the filtered result.  filter() also
 	//sets current
-	int filter(int new_data);	
+	T filter(T new_data);	
 
 };
 
 #endif
+
+//*******************************************************************
+//*                         LIST DEFINITIONS
+//*******************************************************************
+
+//Destructor
+template <typename T>
+FIFO_list<T>::~FIFO_list() { 
+	Node<T>* p = head;
+	Node<T>* q;
+	while (p != NULL){
+		q = p;
+		p = p->next;
+		delete q;
+		
+		#ifdef COMPILE_FOR_CMD_LINE_TEST
+			std::cout<<"destroying node"<<std::endl;
+		#endif
+	}
+}
+
+// remove an element
+template <typename T>
+void inline FIFO_list<T>::remove_node(Node<T>* p){
+	--cnt;
+	delete p;
+}
+
+// add elem to the end of L
+template <typename T>
+void FIFO_list<T>::append(T elem) {
+	Node<T>* newNode = new Node<T>;
+	newNode->data = elem;
+	newNode->next = 0;
+
+	if (cnt == 0) {
+		head = tail = newNode;
+	}
+	else {
+		tail->next = newNode;
+		tail = newNode;
+	}
+	cnt++;
+}
+
+// return sum of Nodes in the list
+template <typename T>
+T FIFO_list<T>::sum(){
+	Node<T>* p = head;
+	T sum = 0;
+	while(p != 0){
+		sum += p->data;
+		p = p->next;
+	}
+	return sum;
+}
+
+// add new data to the FIFO list
+template <typename T>
+void FIFO_list<T>::add(T new_data) {
+	//append the new_data
+	if(head != NULL){
+		Node<T>* p = head;
+		append(new_data);
+		head = head->next;
+		remove_node(p);
+	}
+}
+
+#ifdef COMPILE_FOR_CMD_LINE_TEST
+	//print element values to cout
+	template <typename T>
+	void FIFO_list<T>::print() {
+		Node<T>* p = head;
+		while (p != NULL){
+			std::cout<<"\t"<<p->data<<std::endl;
+			p = p->next;
+		}
+	}
+#endif
+
+
+//*******************************************************************
+//*                         MOVING AVERAGE DEFINITIONS
+//*******************************************************************
+
+//CONSTRUCTOR
+template <typename T>
+Moving_average<T>::Moving_average(int length, T default_data) 
+	:len(length), his(len-1) {
+	
+	for(size_t i = 0; i < his; ++i) {
+		data.append(default_data);
+	}	
+}
+
+
+//filter an incoming data point and return the filtered value
+template <typename T>
+T Moving_average<T>::filter(T new_data) {
+		T result = data.sum() + new_data;
+		result = result / (T)len;
+		
+		//add the new data point to the history			
+		data.add(new_data);
+		
+		//update the current average
+		set_current(result);
+		
+		return result;		
+}
